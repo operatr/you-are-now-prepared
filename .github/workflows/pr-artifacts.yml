@@ -1,32 +1,31 @@
-name: Stable Release Addon Package
+name: PR Release Candidate Artifacts
 
 on:
-  push:
-    tags:
-      - "v*"
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build-and-release:
+  build-pr-artifacts:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Addon Zip
+      - name: Build Addon Zip Artifacts
         run: |
           set -euo pipefail
           rm -rf dist
-          version="${GITHUB_REF_NAME#v}"
 
           build_package() {
             local flavor_name="$1"
             local toc_source="$2"
             local package_root="dist/package-${flavor_name}"
             local addon_dir="${package_root}/YouAreNowPrepared"
-            local zip_name="YouAreNowPrepared-${flavor_name}-gold-${GITHUB_REF_NAME}.zip"
+            local zip_name="YouAreNowPrepared-${flavor_name}-rc-pr${{ github.event.pull_request.number || 'manual' }}-${GITHUB_SHA:0:7}.zip"
 
             rm -rf "$package_root"
             mkdir -p "$addon_dir/src"
@@ -35,7 +34,9 @@ jobs:
             cp LICENSE "$addon_dir/"
             cp src/*.lua "$addon_dir/src/"
 
+            local version="rc-pr${{ github.event.pull_request.number || 'manual' }}-${GITHUB_SHA:0:7}"
             sed -i "s/^## Version: .*/## Version: ${version}/" "$addon_dir/YouAreNowPrepared.toc"
+
             cd "$package_root"
             zip -r "../../${zip_name}" "YouAreNowPrepared"
             cd - >/dev/null
@@ -44,13 +45,18 @@ jobs:
           build_package "ClassicEra" "YouAreNowPrepared_ClassicEra.toc"
           build_package "ClassicTBC" "YouAreNowPrepared_ClassicTBC.toc"
 
-      - name: Publish Stable Release
-        uses: ncipollo/release-action@v1
+      - name: Upload Classic Era RC Artifact
+        uses: actions/upload-artifact@v4
         with:
-          tag: ${{ github.ref_name }}
-          name: Gold ${{ github.ref_name }}
-          generateReleaseNotes: true
-          prerelease: false
-          allowUpdates: true
-          removeArtifacts: true
-          artifacts: YouAreNowPrepared-ClassicEra-gold-${{ github.ref_name }}.zip,YouAreNowPrepared-ClassicTBC-gold-${{ github.ref_name }}.zip
+          name: YouAreNowPrepared-ClassicEra-RC
+          path: YouAreNowPrepared-ClassicEra-rc-pr*.zip
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Classic TBC RC Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: YouAreNowPrepared-ClassicTBC-RC
+          path: YouAreNowPrepared-ClassicTBC-rc-pr*.zip
+          if-no-files-found: error
+          retention-days: 14
