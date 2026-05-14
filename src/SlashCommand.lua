@@ -18,7 +18,9 @@ local function exportGearToJson()
 	local snapshot, snapshotError = ns.GearSnapshotService.BuildSnapshot(buildDependencies())
 	if not snapshot then
 		if type(snapshotError) == "string" and snapshotError:find("cache miss", 1, true) then
-			print("|cffff9900YouAreNowPrepared:|r Item info is still loading. Try /exportgearjson again in 1-2 seconds.")
+			print(
+				"|cffff9900YouAreNowPrepared:|r Item info is still loading. Try /exportgearjson again in 1-2 seconds."
+			)
 			return
 		end
 
