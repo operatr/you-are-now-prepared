@@ -1,0 +1,14 @@
+## Interface: 20504
+## Title: You Are Now Prepared
+## Notes: Exports equipped gear to JSON for TBC Classic.
+## Version: 1.0.0
+
+src/Namespace.lua
+src/Flavor.ClassicTBC.lua
+src/SlotProfiles.lua
+src/ItemLinkParser.lua
+src/ItemInfoProvider.lua
+src/JsonEncoder.lua
+src/GearSnapshotService.lua
+src/ExportFrame.lua
+src/SlashCommand.lua

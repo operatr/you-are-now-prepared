@@ -1,0 +1,3 @@
+local _, ns = ...
+
+ns.flavor = "classic_tbc"

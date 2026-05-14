@@ -1,0 +1,56 @@
+name: Auto Release Addon Package
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Addon Zip
+        run: |
+          set -euo pipefail
+          rm -rf dist
+
+          build_package() {
+            local flavor_name="$1"
+            local toc_source="$2"
+            local addon_dir="dist/YouAreNowPrepared-${flavor_name}"
+            local zip_name="YouAreNowPrepared-${flavor_name}-continuous.zip"
+
+            rm -rf "$addon_dir"
+            mkdir -p "$addon_dir/src"
+            cp "$toc_source" "$addon_dir/YouAreNowPrepared.toc"
+            cp README.md "$addon_dir/"
+            cp LICENSE "$addon_dir/"
+            cp src/*.lua "$addon_dir/src/"
+
+            local version="continuous-${GITHUB_SHA:0:7}"
+            sed -i "s/^## Version: .*/## Version: ${version}/" "$addon_dir/YouAreNowPrepared.toc"
+            cd dist
+            zip -r "../${zip_name}" "YouAreNowPrepared-${flavor_name}"
+            cd - >/dev/null
+          }
+
+          build_package "ClassicEra" "YouAreNowPrepared_ClassicEra.toc"
+          build_package "ClassicTBC" "YouAreNowPrepared_ClassicTBC.toc"
+
+      - name: Publish Continuous Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: continuous
+          name: Continuous Build
+          body: |
+            Automated prerelease package from `main`.
+            Use this if you want the latest build without manual packaging.
+          prerelease: true
+          allowUpdates: true
+          removeArtifacts: true
+          artifacts: YouAreNowPrepared-ClassicEra-continuous.zip,YouAreNowPrepared-ClassicTBC-continuous.zip

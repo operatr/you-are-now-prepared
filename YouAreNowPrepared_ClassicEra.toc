@@ -1,0 +1,14 @@
+## Interface: 11507
+## Title: You Are Now Prepared
+## Notes: Exports equipped gear to JSON for Classic Era.
+## Version: 1.0.0
+
+src/Namespace.lua
+src/Flavor.ClassicEra.lua
+src/SlotProfiles.lua
+src/ItemLinkParser.lua
+src/ItemInfoProvider.lua
+src/JsonEncoder.lua
+src/GearSnapshotService.lua
+src/ExportFrame.lua
+src/SlashCommand.lua
