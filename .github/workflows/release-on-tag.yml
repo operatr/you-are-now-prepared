@@ -41,8 +41,8 @@ jobs:
             cd - >/dev/null
           }
 
-          build_package "ClassicEra" "YouAreNowPrepared_ClassicEra.toc"
-          build_package "ClassicTBC" "YouAreNowPrepared_ClassicTBC.toc"
+          build_package "ClassicEra" "YouAreNowPrepared_Vanilla.toc"
+          build_package "ClassicTBC" "YouAreNowPrepared_TBC.toc"
 
       - name: Publish Stable Release
         uses: ncipollo/release-action@v1

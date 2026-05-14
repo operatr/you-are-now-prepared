@@ -22,10 +22,11 @@ jobs:
           build_package() {
             local flavor_name="$1"
             local toc_source="$2"
-            local addon_dir="dist/YouAreNowPrepared-${flavor_name}"
+            local package_root="dist/package-${flavor_name}"
+            local addon_dir="${package_root}/YouAreNowPrepared"
             local zip_name="YouAreNowPrepared-${flavor_name}-continuous.zip"
 
-            rm -rf "$addon_dir"
+            rm -rf "$package_root"
             mkdir -p "$addon_dir/src"
             cp "$toc_source" "$addon_dir/YouAreNowPrepared.toc"
             cp README.md "$addon_dir/"
@@ -34,13 +35,13 @@ jobs:
 
             local version="continuous-${GITHUB_SHA:0:7}"
             sed -i "s/^## Version: .*/## Version: ${version}/" "$addon_dir/YouAreNowPrepared.toc"
-            cd dist
-            zip -r "../${zip_name}" "YouAreNowPrepared-${flavor_name}"
+            cd "$package_root"
+            zip -r "../../${zip_name}" "YouAreNowPrepared"
             cd - >/dev/null
           }
 
-          build_package "ClassicEra" "YouAreNowPrepared_ClassicEra.toc"
-          build_package "ClassicTBC" "YouAreNowPrepared_ClassicTBC.toc"
+          build_package "ClassicEra" "YouAreNowPrepared_Vanilla.toc"
+          build_package "ClassicTBC" "YouAreNowPrepared_TBC.toc"
 
       - name: Publish Continuous Release
         uses: ncipollo/release-action@v1
