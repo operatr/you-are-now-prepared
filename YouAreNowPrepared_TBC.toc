@@ -1,4 +1,4 @@
-## Interface: 20504
+## Interface: 20505
 ## Title: You Are Now Prepared
 ## Notes: Exports equipped gear to JSON for TBC Classic.
 ## Version: 1.0.0
