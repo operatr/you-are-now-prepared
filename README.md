@@ -1,6 +1,15 @@
 # You Are Now Prepared
 
-Exports equipped player gear to JSON with gems and enchants.
+You Are Now Prepared is a World of Warcraft addon that exports your currently equipped gear to copyable JSON.
+
+It includes item IDs, enchant IDs, and gem IDs for each equipped slot.
+
+Supported game versions:
+- World of Warcraft Classic Era
+- World of Warcraft TBC Classic
+
+Not supported:
+- Retail WoW
 
 ## Player guide
 
@@ -17,7 +26,7 @@ Retail is intentionally out of scope for this repository right now.
 2. Extract it into your addons folder so the addon folder sits directly under `Interface/AddOns`.
 
 	- Classic Era example: `World of Warcraft/_classic_/Interface/AddOns/YouAreNowPrepared-ClassicEra/`
-	- TBC Classic example: `World of Warcraft/_classic_/Interface/AddOns/YouAreNowPrepared-ClassicTBC/`
+	- TBC Classic example: `World of Warcraft/_anniversary_/Interface/AddOns/YouAreNowPrepared-ClassicTBC/`
 
 3. Enable the addon on the character select screen.
 
@@ -46,6 +55,12 @@ The command opens a text popup and highlights the JSON automatically so you can 
 ## For contributors
 
 Maintainer and development documentation lives in `CONTRIBUTING.md`.
+
+## Feedback
+
+Submit questions, comments, bug reports, pitchforks, and torches to the issue tracker:
+
+- Open an issue on GitHub: `https://github.com/operatr/you-are-now-prepared/issues`
 
 ## License
 
