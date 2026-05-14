@@ -18,9 +18,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-
-      - name: Check Lua formatting
-        run: stylua --check src spec
+          args: --check src spec
 
       - name: Install Lua
         uses: leafo/gh-actions-lua@v10
